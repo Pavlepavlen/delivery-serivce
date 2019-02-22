@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i,800');
+
+
+:root {
+  --main-aqua: #5BC0BE;
+  --main-dark-blue: #0B132B;
+  --main-dim-blue: #0B3142;
+  --main-dim-aqua: #0F5257;
+  --main-yellow: #FED766;
+  --main-sky: #009FB7;
+  --main-light: #C1CAD6;
+  --main-red: #E3170A;
+  --main-green-blue: #087E8B;
+  --bread: rgb(244, 164, 96);
+  --crust: rgb(240, 143, 58);
+}
+
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Sans Serif', sans-serif;
+}
+
