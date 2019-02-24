@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, Component } from "react";
 import styled from "styled-components";
 
 import Modal from "../../../hoc/Modal/Modal";
@@ -14,12 +14,13 @@ const Styles = styled(Fragment)`
     }
 `;
 
-const OrderSummary = (props) => {
+class OrderSummary extends Component {
 
-    const ingredientSummary = Object.keys(props.ingredients)
+    render () {
+        const ingredientSummary = Object.keys(this.props.ingredients)
         .map(key => {
             return  <li key={key}>
-                        <span>{key}</span> : {props.ingredients[key]}
+                        <span>{key}</span> : {this.props.ingredients[key]}
                     </li>;
         })
 
@@ -31,15 +32,17 @@ const OrderSummary = (props) => {
                 <ul>   
                     { ingredientSummary }
                 </ul>
-                <p>Total Price: {props.price.toFixed(2)} $</p>
+                <p>Total Price: {this.props.price.toFixed(2)} $</p>
                 <p>Are you ready to make order?</p>
-                <PurchasingButton   onClick={props.submitOrder}
+                <PurchasingButton   onClick={this.props.submitOrder}
                                     type="submit">Submit</PurchasingButton>
-                <PurchasingButton   onClick={(event) => {props.closeOrder(event)}} 
+                <PurchasingButton   onClick={(event) => {this.props.closeOrder(event)}} 
                                     type="cancel">Cancel</PurchasingButton>
             </Styles>
         </Modal>
     )
+    }
+    
 }
 
 export default OrderSummary;

@@ -55,6 +55,7 @@ class BurderBuilder extends Component {
     }
 
     cancelPurchasingHandler = (event) => {
+        console.log(event.target.parentElement.nodeName);
         if( event.target.parentElement.nodeName === "MAIN" 
             || event.target.textContent.toLowerCase() === "cancel");
 

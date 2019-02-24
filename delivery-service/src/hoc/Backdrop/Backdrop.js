@@ -18,7 +18,7 @@ const Styles = styled('div')`
 const Backdrop = ({show, children}) => {
     return (
         <ClosingContext.Consumer>
-            {(context) => show ? <Styles onClick={(event) => {context.closeModal(event)}}>
+            {(context) => show ? <Styles className="backdrop" onClick={(event) => {context.closeModal(event)}}>
                 {children}
             </Styles> : null}
         </ClosingContext.Consumer>
