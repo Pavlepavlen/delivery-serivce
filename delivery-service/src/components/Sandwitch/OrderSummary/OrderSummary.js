@@ -16,6 +16,11 @@ const Styles = styled(Fragment)`
 
 class OrderSummary extends Component {
 
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log(this.props);
+        console.log(nextProps);
+    }
+
     render () {
         const ingredientSummary = Object.keys(this.props.ingredients)
         .map(key => {

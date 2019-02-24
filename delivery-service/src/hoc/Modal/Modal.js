@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 
 import Backdrop from "../Backdrop/Backdrop";
@@ -15,7 +15,7 @@ const Styles = styled('div')`
     top: 30%;
     box-sizing: border-box;
     transition: all 0.3s ease-out;
-    animation: modalOpen 1.6s;
+    animation: modalOpen .4s;
 
     @media screen and (min-width: 600px) {
     .Modal {
@@ -32,11 +32,12 @@ const Styles = styled('div')`
 
 const Modal = (props) => {
     return (
-        <Backdrop show={true}>
+        <Fragment>
+        <Backdrop show={true} />
             <Styles>
                 {props.children}
             </Styles>
-        </Backdrop>
+        </Fragment>
     )
 }
 
