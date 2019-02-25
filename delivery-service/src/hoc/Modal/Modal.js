@@ -31,13 +31,18 @@ const Styles = styled('div')`
 `;
 
 const Modal = (props) => {
+
+    let modal = null;
+    if (props.show !== null) {
+        modal =     <Fragment>
+                        <Backdrop show={true} />
+                        <Styles>
+                            {props.children}
+                        </Styles>
+                    </Fragment>
+    }
     return (
-        <Fragment>
-        <Backdrop show={true} />
-            <Styles>
-                {props.children}
-            </Styles>
-        </Fragment>
+         modal 
     )
 }
 

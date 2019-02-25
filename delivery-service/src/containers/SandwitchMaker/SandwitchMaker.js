@@ -5,7 +5,9 @@ import Sandwitch from "../../components/Sandwitch/Sandwitch";
 import BuildControls from "../../components/Sandwitch/BuildControls/BuildControls";
 import OrderSummary from "../../components/Sandwitch/OrderSummary/OrderSummary";
 import Loader from "../../components/UI/Loader/Loader";
+import LoaderWithoutModal from "../../components/UI/LoaderWithoutModal/LoaderWithoutModal";
 import ClosingContext from "../../context/closing-context";
+import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -19,18 +21,26 @@ const INGREDIENT_PRICES = {
 class BurderBuilder extends Component {
 
     state = {
-        ingredients: {
-            salad: 0,
-            bacon: 0,
-            onion: 0,
-            chicken: 0,
-            cheese: 0,
-            tomato: 0
-        },
+        ingredients: null,
         totalPrice: 3,
         purchasable: false,
         orderDone: false,
-        loading: false
+        loading: false,
+        error: false
+    }
+
+    componentDidMount () {
+        axios.get('https://react-my-sandwich-320a9.firebaseio.com/ingredients.json')
+            .then(response => {
+                this.setState({
+                    ingredients: response.data
+                });
+            })
+            .catch(error => {
+                this.setState({
+                    error: true
+                })
+            });
     }
 
     updatePurchaseState = (ingredientsUpdated) => {
@@ -58,7 +68,7 @@ class BurderBuilder extends Component {
     }
 
     cancelPurchasingHandler = (event) => {
-        console.log(event.target.parentElement.nodeName);
+
         if( event.target.parentElement.nodeName === "MAIN" 
             || event.target.textContent.toLowerCase() === "cancel");
 
@@ -89,7 +99,7 @@ class BurderBuilder extends Component {
             },
         }
 
-        axios.post('/orders.json', order)
+        axios.post('/orders', order)
             .then(responce => {
                 this.setState({
                     loading: false,
@@ -158,17 +168,25 @@ class BurderBuilder extends Component {
             orderSummary = <Loader />
         }
 
-        console.log(this.state.orderDone);
+        let sandwich = this.state.error ? <p>Sorry, but ingredients can't be loaded!</p> : <LoaderWithoutModal />;
+        
+        if(this.state.ingredients !== null) {
+            sandwich = (
+            <Fragment>
+            <Sandwitch ingredients={this.state.ingredients} />
+            <BuildControls  ingredientAdded={this.addIngredientsHnadler}
+                            ingredientRemoved={this.removeIngredientHandler} 
+                            ingredients={this.state.ingredients}
+                            price={this.state.totalPrice}
+                            purchasable={this.state.purchasable}
+                            order={this.purchaseOrderHandler} />
+            </Fragment>
+            )
+        }
 
         return (
             <Fragment>
-                <Sandwitch ingredients={this.state.ingredients} />
-                <BuildControls  ingredientAdded={this.addIngredientsHnadler}
-                                ingredientRemoved={this.removeIngredientHandler} 
-                                ingredients={this.state.ingredients}
-                                price={this.state.totalPrice}
-                                purchasable={this.state.purchasable}
-                                order={this.purchaseOrderHandler} />
+                { sandwich }
                 <ClosingContext.Provider value={{closeModal: this.cancelPurchasingHandler}}>
                 {this.state.orderDone   ? orderSummary
                                         : null}
@@ -178,4 +196,4 @@ class BurderBuilder extends Component {
     }
 }
 
-export default BurderBuilder;
+export default withErrorHandler(BurderBuilder, axios);
