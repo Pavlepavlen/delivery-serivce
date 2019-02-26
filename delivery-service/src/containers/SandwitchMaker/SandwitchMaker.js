@@ -80,7 +80,7 @@ class BurderBuilder extends Component {
 
     submitOrderHandler = () => {
 
-        this.setState({
+        /* this.setState({
             loading: true
         })
 
@@ -99,7 +99,7 @@ class BurderBuilder extends Component {
             },
         }
 
-        axios.post('/orders', order)
+        axios.post('/orders.json', order)
             .then(responce => {
                 this.setState({
                     loading: false,
@@ -111,7 +111,9 @@ class BurderBuilder extends Component {
                     loading: false,
                     orderDone: false
                 })
-            });
+            }); */
+
+        console.log(this.props.history.push('/checkout'));
     }
 
     addIngredientsHnadler = (type) => {
